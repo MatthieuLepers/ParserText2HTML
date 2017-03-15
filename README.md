@@ -1,7 +1,8 @@
 #  **Parse Text to HTML easily with ParseText2HTML**
 
 ## **Informations**
-Current version 1.0.0
+Tag Class version 1.0.0
+ParserText2HTML Class version 1.0.1
 
 ## **Instalation**
 You just have to download the class file and include it in you PHP scripts.

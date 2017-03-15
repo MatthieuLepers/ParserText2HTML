@@ -123,7 +123,7 @@
 	/**
 	 * Represents the parser to convert text to HTML
 	 * @author : Matthieu Lepers (Aire Ayquaza)
-	 * @version 1.0.0
+	 * @version 1.0.1
 	 */
 	class ParserText2HTML
 	{
@@ -169,7 +169,7 @@
 		 */
 		public function parse()
 		{
-			$regexTags = 'abbr|address|area|article|aside|audio|a|base|bdo|blockquote|body|br|button|b|canvas|caption|cite|code|colgroup|col|command|datalist|dd|del|defs|details|dfn|div|dl|dt|embed|em|fieldset|figcaption|figure|footer|form|h1|h2|h3|h4|h5|head|header|hgroup|hr|html|iframe|img|input|ins|i|keygen|kbd|label|legend|link|li|map|mark|math|menu|meta|meter|nav|noscript|object|ol|optgroup|option|output|path|param|pre|progress|p|q|rp|rt|ruby|samp|script|section|select|small|source|span|strong|style|sub|summary|sup|svg|symbol|table|tbody|td|textarea|tfoot|th|thead|time|title|tr|track|ul|use|var|video|wbr';
+			$regexTags = 'abbr|address|area|article|aside|audio|a|base|bdo|blockquote|body|br|button|b|canvas|caption|cite|code|colgroup|col|command|datalist|dd|del|defs|details|dfn|div|dl|dt|embed|em|fieldset|figcaption|figure|footer|form|h1|h2|h3|h4|h5|header|head|hgroup|hr|html|iframe|img|input|ins|i|keygen|kbd|label|legend|link|li|map|mark|math|menu|meta|meter|nav|noscript|object|ol|optgroup|option|output|path|param|pre|progress|p|q|rp|rt|ruby|samp|script|section|select|small|source|span|strong|style|sub|summary|sup|svg|symbol|table|tbody|td|textarea|tfoot|thead|th|time|title|tr|track|ul|use|var|video|wbr';
 			$regexId      = "(#([^ .]+))?";
 			$regexClass   = "((\.[^ ]+)+)?";
 			$regexAttribute   = "(( [^ ]+=\"[^\"]+\")+)?";
