@@ -57,6 +57,7 @@ You need to make a structure like that ?
 `</section>`
 
 There is a solution, just add once a space before you tagName like this:
+
 `section`
 
 &nbsp;`article`
