@@ -2,7 +2,7 @@
 
 ## **Informations**
 Tag Class version 1.0.0
-ParserText2HTML Class version 1.0.1
+ParserText2HTML Class version 1.0.2
 
 ## **Instalation**
 You just have to download the class file and include it in you PHP scripts.
@@ -11,7 +11,7 @@ You just have to download the class file and include it in you PHP scripts.
 
 ## **How to use**
 To use the parser you must write your text in an external file.
-**/!\ You file must end with a new line /!\**
+** /!\ You file must end with a new line /!\ **
 You just have to load the file like this:
 
 `$file = "./file2Parse.txt"`
@@ -57,20 +57,23 @@ You need to make a structure like that ?
 
 `</section>`
 
-There is a solution, just add once a space before you tagName like this:
+There is a solution, just add once a tab before you tagName like this:
 
 `section`
 
 &nbsp;`article`
 
 ## **More exemples**
-See the file exemple.txt and result.html.
-result.html is the result of parsing the file exemple.txt 
+See the file exempleSpaces.txt and resultSpaces.html.
+resultSpaces.html is the result of parsing the file exempleSpaces.txt using **spaces** for indentation
+
+See the file exempleTabs.txt and resultTabs.html.
+resultTabs.html is the result of parsing the file exempleTabs.txt using **tabs** for indentation
 
 ## **Supports**
 The parser supports all HTML5 tags. If you find a unsupported tag, please make an issue here.
 HTML comments are not supported.
 Doctype tag is not supported.
-Indentation is only with spaces, no tabs supported
+Indentations are with spaces **or** tabs
 
 ## **Need help ? Just post an issue**

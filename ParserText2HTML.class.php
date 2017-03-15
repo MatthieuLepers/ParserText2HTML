@@ -123,7 +123,7 @@
 	/**
 	 * Represents the parser to convert text to HTML
 	 * @author : Matthieu Lepers (Aire Ayquaza)
-	 * @version 1.0.1
+	 * @version 1.0.2
 	 */
 	class ParserText2HTML
 	{
@@ -177,7 +177,7 @@
 			
 			$regex = "({$regexTags}){$regexId}{$regexClass}{$regexAttribute}{$regexTextContent}";
 			
-			$tab = explode("\r\n", $this->fileContent);
+			$tab = explode("\r\n", preg_replace("#\t#", " ", $this->fileContent));
 			$tags = array();
 			
 			for ($i = 0; $i < sizeof($tab); $i++)
