@@ -2,6 +2,7 @@
 
 ## **Informations**
 Tag Class version 1.0.0
+
 ParserText2HTML Class version 1.0.2
 
 ## **Instalation**
