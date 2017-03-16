@@ -1,9 +1,9 @@
 #  **Parse Text to HTML easily with ParseText2HTML**
 
 ## **Informations**
-Tag Class version 1.0.0
+Tag Class version 1.0.1
 
-ParserText2HTML Class version 1.0.2
+ParserText2HTML Class version 1.0.3
 
 ## **Instalation**
 You just have to download the class file and include it in you PHP scripts.
@@ -32,6 +32,10 @@ The parser supports any formats.
 You can test a file directly by accessing the php file in URL like:
 
 `http://localhost/myProject/php/ParserText2HTML.class.php?file=parseMe.txt`
+
+You can add your own tags by writing:
+
+`Tag::$TAGS[] = 'myTag';`
 
 ## **Syntax**
 The parser supports a specific syntax to work correclty.

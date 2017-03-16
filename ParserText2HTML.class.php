@@ -2,12 +2,13 @@
 	/**
 	 * Represents a HTML tag
 	 * @author : Matthieu Lepers (Aire Ayquaza)
-	 * @version 1.0.0
+	 * @version 1.0.1
 	 */
 	class Tag
 	{
 		private $tagName;
-		private static $OPRH = array('img', 'link', 'meta', 'br', 'hr', 'input', 'area', 'param');
+		public static $OPRH = array('img', 'link', 'meta', 'br', 'hr', 'input', 'area', 'param');
+		public static $TAGS = array('abbr', 'address', 'area', 'article', 'aside', 'audio', 'a', 'base', 'bdo', 'blockquote', 'body', 'br', 'button', 'b', 'canvas', 'caption', 'cite', 'code', 'colgroup', 'col', 'command', 'datalist', 'dd', 'del', 'defs', 'details', 'dfn', 'div', 'dl', 'dt', 'embed', 'em', 'fieldset', 'figcaption', 'figure', 'footer', 'form', 'h1', 'h2', 'h3', 'h4', 'h5', 'header', 'head', 'hgroup', 'hr', 'html', 'iframe', 'img', 'input', 'ins', 'i', 'keygen', 'kbd', 'label', 'legend', 'link', 'li', 'map', 'mark', 'math', 'menu', 'meta', 'meter', 'nav', 'noscript', 'object', 'ol', 'optgroup', 'option', 'output', 'path', 'param', 'pre', 'progress', 'p', 'q', 'rp', 'rt', 'ruby', 'samp', 'script', 'section', 'select', 'small', 'source', 'span', 'strong', 'style', 'sub', 'summary', 'sup', 'svg', 'symbol', 'table', 'tbody', 'td', 'textarea', 'tfoot', 'thead', 'th', 'time', 'title', 'tr', 'track', 'ul', 'use', 'var', 'video', 'wbr');
 		private $attributes  = array();
 		private $childrens   = array();
 		private $content;
@@ -29,22 +30,28 @@
 		 * @param tagAttributes : [Array]  The other attributes to set
 		 * @param pageContent   : [String] The content of the tag
 		 * @return              : [Tag] The tag object
+		 * @throw Exception (makeTag) : if the tagName is not a recognized tag
 		 */
 		public static function makeTag($tagName, $tagId, $tagClass, $tagAttributes, $tagContent)
 		{
-			$tag = new Tag($tagName);
-			if ($tagId != '') $tag->addAttribute('id', $tagId);
-			for ($j = 1; $j < sizeof($tagClass); $j++)
-				$tag->addAttribute('class', $tagClass[$j]);
-			for ($j = 0; $j < sizeof($tagAttributes); $j++)
+			if (in_array($tagName, Tag::$TAGS))
 			{
-				$attr  = preg_replace('#([^ ]+)=\"([^\"]+)\"#', '$1', $tagAttributes[$j]);
-				$value = preg_replace('#([^ ]+)=\"([^\"]+)\"#', '$2', $tagAttributes[$j]);
-				$tag->addAttribute($attr, $value);
+				$tag = new Tag($tagName);
+				if ($tagId != '') $tag->addAttribute('id', $tagId);
+				for ($j = 1; $j < sizeof($tagClass); $j++)
+					$tag->addAttribute('class', $tagClass[$j]);
+				for ($j = 0; $j < sizeof($tagAttributes); $j++)
+				{
+					$attr  = preg_replace('#([^ ]+)=\"([^\"]+)\"#', '$1', $tagAttributes[$j]);
+					$value = preg_replace('#([^ ]+)=\"([^\"]+)\"#', '$2', $tagAttributes[$j]);
+					$tag->addAttribute($attr, $value);
+				}
+				$tag->addTextContent($tagContent);
+				
+				return $tag;
 			}
-			$tag->addTextContent($tagContent);
-			
-			return $tag;
+			else
+				throw new Exception("Error when making a tag! The tag '{$tagName}' is not a recognized tag!");
 		}
 		
 		/* ------ Setters ----- */
@@ -123,10 +130,11 @@
 	/**
 	 * Represents the parser to convert text to HTML
 	 * @author : Matthieu Lepers (Aire Ayquaza)
-	 * @version 1.0.2
+	 * @version 1.0.3
 	 */
 	class ParserText2HTML
 	{
+		private $file;
 		private $fileContent;
 		
 		/**
@@ -135,7 +143,8 @@
 		 */
 		function __construct($file)
 		{
-			$this->fileContent = file_get_contents($file);
+			$this->file        = $file;
+			$this->fileContent = file_get_contents($this->file);
 		}
 		
 		/**
@@ -166,10 +175,12 @@
 		
 		/**
 		 * Convert the file content to HTML
+		 * @throw Exception (parse)   : if not able to parse a line
+		 * @throw Exception (makeTag) : if the tagName is not a recognized tag
 		 */
 		public function parse()
 		{
-			$regexTags = 'abbr|address|area|article|aside|audio|a|base|bdo|blockquote|body|br|button|b|canvas|caption|cite|code|colgroup|col|command|datalist|dd|del|defs|details|dfn|div|dl|dt|embed|em|fieldset|figcaption|figure|footer|form|h1|h2|h3|h4|h5|header|head|hgroup|hr|html|iframe|img|input|ins|i|keygen|kbd|label|legend|link|li|map|mark|math|menu|meta|meter|nav|noscript|object|ol|optgroup|option|output|path|param|pre|progress|p|q|rp|rt|ruby|samp|script|section|select|small|source|span|strong|style|sub|summary|sup|svg|symbol|table|tbody|td|textarea|tfoot|thead|th|time|title|tr|track|ul|use|var|video|wbr';
+			$regexTags    = implode('|', Tag::$TAGS);
 			$regexId      = "(#([^ .]+))?";
 			$regexClass   = "((\.[^ ]+)+)?";
 			$regexAttribute   = "(( [^ ]+=\"[^\"]+\")+)?";
@@ -180,7 +191,7 @@
 			$tab = explode("\r\n", preg_replace("#\t#", " ", $this->fileContent));
 			$tags = array();
 			
-			for ($i = 0; $i < sizeof($tab); $i++)
+			for ($i = 0; $i < sizeof($tab) - 1; $i++)
 			{
 				if (preg_match("%( +){$regex}%", $tab[$i]))
 				{
@@ -206,6 +217,8 @@
 					$tag = Tag::makeTag($tagName, $tagId, $tagClass, $tagAttributes, $tagContent);
 					$tags[] = $tag;
 				}
+				else
+					throw new Exception("Error when parsing the line '{$tab[$i]}'! at {$this->file}:" . ($i + 1));
 			}
 			
 			$result = '';
